@@ -1,3 +1,9 @@
 <template>
-  <NuxtPage />
+  <UApp>
+    <NuxtLayout>
+      <UMain class="relative`">
+        <NuxtPage />
+      </UMain>
+    </NuxtLayout>
+  </UApp>
 </template>

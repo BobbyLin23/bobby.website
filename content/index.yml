@@ -1,0 +1,130 @@
+seo:
+  title: Bobby Lin - Full Stack Engineer
+  description: "Welcome to my portfolio! I'm Bobby Lin, a full stack engineer based in Shanghai. I specialize in building scalable web applications and robust backend systems with modern technologies."
+title: "Hey, I'm Bobby Lin - Full Stack Engineer"
+description: 'I build end-to-end web solutions that scale. Based in Shanghai, transforming ideas into powerful applications with clean code and innovative technology.'
+hero:
+  images:
+    - src: https://picsum.photos/468/468?random=1
+      alt: Tech Stack Image 1
+    - src: https://picsum.photos/468/468?random=2
+      alt: Development Setup 2
+    - src: https://picsum.photos/468/468?random=3
+      alt: Code Architecture 3
+    - src: https://picsum.photos/468/468?random=4
+      alt: API Development 4
+    - src: https://picsum.photos/468/468?random=5
+      alt: Database Design 5
+    - src: https://picsum.photos/468/468?random=6
+      alt: Cloud Infrastructure 6
+    - src: https://picsum.photos/468/468?random=7
+      alt: Frontend Framework 7
+    - src: https://picsum.photos/468/468?random=8
+      alt: DevOps Pipeline 8
+about:
+  title: About Me
+  description: |
+    As a full stack engineer with 6+ years of experience, I specialize in building robust, scalable web applications from the ground up.
+    My expertise spans across modern JavaScript frameworks, cloud infrastructure, and database design. I'm passionate about clean code,
+    system architecture, and creating seamless user experiences backed by powerful backend systems.
+experience:
+  title: Work Experience
+  items:
+    - position: Senior Full Stack Engineer at
+      date: 2023 - Present
+      company:
+        name: Alibaba Cloud
+        logo: i-simple-icons-alibabacloud
+        url: 'https://www.alibabacloud.com'
+        color: '#FF6A00'
+    - position: Full Stack Developer at
+      date: 2021 - 2023
+      company:
+        name: ByteDance
+        logo: i-simple-icons-tiktok
+        url: 'https://www.bytedance.com'
+        color: '#000000'
+    - position: Backend Engineer at
+      date: 2019 - 2021
+      company:
+        name: Tencent
+        logo: i-simple-icons-tencentqq
+        url: 'https://www.tencent.com'
+        color: '#1296DB'
+testimonials:
+  - quote: "Bobby's full stack expertise was instrumental in building our e-commerce platform. He seamlessly integrated our React frontend with a robust Node.js backend, implemented Redis caching, and optimized our database queries. The result was a 60% improvement in page load times and a system that handles 10x our original traffic."
+    author:
+      name: David Wang
+      description: CTO at TechFlow Solutions
+      avatar:
+        src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
+        srcset: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+  - quote: 'Working with Bobby was a game-changer for our startup. He built our entire tech stack from scratch using Vue.js, Express.js, and PostgreSQL. His deep understanding of both frontend and backend allowed for seamless integration. He also set up our CI/CD pipeline and AWS infrastructure, which has been rock-solid since day one.'
+    author:
+      name: Lisa Chen
+      description: Founder of DataSync Pro
+      avatar:
+        src: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
+        srcset: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+  - quote: "Bobby's technical expertise in microservices architecture helped us migrate from a monolithic application to a scalable distributed system. He implemented Docker containers, Kubernetes orchestration, and set up monitoring with Prometheus. Our system reliability improved dramatically, and we can now deploy multiple times per day with confidence."
+    author:
+      name: James Liu
+      description: Engineering Manager at CloudNative Corp
+      avatar:
+        src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
+        srcset: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+blog:
+  title: Latest Tech Articles
+  description: Sharing insights on full stack development and system architecture
+faq:
+  title: Frequently Asked Questions
+  description: Common questions about my development services and technical expertise.
+  categories:
+    - title: Services & Technical Stack
+      questions:
+        - label: What technologies do you specialize in?
+          content: |
+            I specialize in modern JavaScript/TypeScript ecosystems including Vue.js, React, Node.js, and Nuxt.js for full stack development.
+            For backend, I work with Express.js, Fastify, PostgreSQL, MongoDB, and Redis. I'm experienced with cloud platforms like AWS,
+            Alibaba Cloud, and containerization with Docker and Kubernetes. I also implement CI/CD pipelines and monitoring solutions.
+        - label: What types of applications do you build?
+          content: |
+            I build a wide range of applications including e-commerce platforms, SaaS products, API-first applications, real-time applications
+            with WebSocket, microservices architectures, and progressive web apps. I focus on scalable, maintainable code with proper testing
+            and documentation.
+        - label: Do you handle DevOps and deployment?
+          content: |
+            Yes! I handle the complete deployment pipeline including containerization, cloud infrastructure setup, CI/CD automation,
+            monitoring, and performance optimization. I ensure your applications are production-ready and scalable.
+    - title: Project Management & Pricing
+      questions:
+        - label: How much does a full stack project cost?
+          content: |
+            Project costs vary based on complexity, features, and scale requirements. Simple web applications start around $8,000,
+            while complex enterprise solutions can range from $25,000 to $100,000+. For consulting or code reviews,
+            my daily rate is $800. I provide detailed estimates after understanding your requirements.
+        - label: What is your development process?
+          content: |
+            I follow an agile development approach with regular sprints and demos. The process includes requirements analysis,
+            system architecture design, database schema design, API development, frontend implementation, testing, deployment,
+            and ongoing support. I maintain clear communication and provide regular progress updates.
+        - label: How long does development typically take?
+          content: |
+            Timeline depends on project scope. Simple web applications take 4-6 weeks, medium complexity projects take 8-12 weeks,
+            and enterprise applications can take 3-6 months. I provide detailed project timelines with milestones during the planning phase.
+        - label: Do you provide ongoing maintenance and support?
+          content: |
+            Yes, I offer maintenance packages including bug fixes, security updates, performance monitoring, feature enhancements,
+            and infrastructure management. I also provide monthly retainer options for ongoing development needs.
+    - title: Technical Approach
+      questions:
+        - label: How do you ensure code quality and scalability?
+          content: |
+            I follow best practices including writing comprehensive tests (unit, integration, e2e), implementing proper error handling,
+            using design patterns, conducting code reviews, and maintaining clear documentation. I also implement monitoring and
+            logging to ensure system reliability and performance.
+        - label: What are your favorite technologies to work with?
+          content: |
+            I love working with Vue.js and Nuxt.js for frontend development due to their developer experience and performance.
+            For backend, I enjoy Node.js with TypeScript for type safety. I'm passionate about PostgreSQL for relational data
+            and Redis for caching. Docker and Kubernetes make deployment and scaling enjoyable.
