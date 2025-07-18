@@ -1,0 +1,16 @@
+---
+alwaysApply: true
+---
+
+Before you write code, please follow these rules:
+
+- Please use the latest version of Nuxt 4
+- Please use the latest version of Tailwind CSS
+- Please use the latest version of Motion for Vue
+- Please remember auto import feature in Nuxt
+- Please do not write any code that is not related to the project
+- Please follow the code style of the project
+- Please follow the best practices
+- If you are not sure about the code, please use MCP to get the docs
+- If you are not sure about the code, please search the internet for the answer
+- If you are not sure about the code style, please ask the user for help

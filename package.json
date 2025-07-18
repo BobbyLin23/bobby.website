@@ -24,6 +24,7 @@
     "@antfu/eslint-config": "^4.16.2",
     "@iconify-json/lucide": "^1.2.56",
     "@iconify-json/simple-icons": "^1.2.42",
-    "eslint": "^9.30.1"
+    "eslint": "^9.30.1",
+    "nuxt-mcp": "^0.2.3"
   }
 }
