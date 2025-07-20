@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="text-red-500">
-    <h1>Hello World</h1>
+  <div>
+    <h1>Blogs</h1>
   </div>
 </template>
