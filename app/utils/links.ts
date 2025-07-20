@@ -14,7 +14,7 @@ export const navLinks: NavigationMenuItem[] = [
   {
     label: 'Blog',
     icon: 'i-lucide-file-text',
-    to: '/blog',
+    to: '/blogs',
   },
   {
     label: 'Weekly',
