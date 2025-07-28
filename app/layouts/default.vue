@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="sm:border-x mx-auto max-w-[var(--ui-container)] min-h-screen border-default px-4 sm:px-6 lg:px-8 pt-10">
+  <div class="border-default mx-auto min-h-screen max-w-[var(--ui-container)] px-4 pt-10 pb-10 sm:border-x sm:px-6 lg:px-8">
     <AppHeader :items="navLinks" />
     <slot />
     <AppFooter />

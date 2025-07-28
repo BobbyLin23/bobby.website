@@ -10,7 +10,7 @@ const { footer } = useAppConfig()
 
 <template>
   <div class="text-center">
-    <div class="flex items-center justify-center mb-4">
+    <div class="mb-4 flex items-center justify-center">
       <Motion
         :initial="{
           scale: 1.1,
@@ -28,13 +28,13 @@ const { footer } = useAppConfig()
         }"
       >
         <UAvatar
-          class="size-18 ring ring-default ring-offset-3 ring-offset-(--ui-bg)"
+          class="ring-default size-18 ring ring-offset-3 ring-offset-(--ui-bg)"
           src="/image.png"
         />
       </Motion>
     </div>
-    <h1 class="tracking-tight font-bold text-pretty text-3xl sm:text-4xl lg:text-5xl text-shadow-md max-w-lg mx-auto">
-      <div class="text-shadow-md max-w-lg mx-auto">
+    <h1 class="mx-auto max-w-lg text-3xl font-bold tracking-tight text-pretty text-shadow-md sm:text-4xl lg:text-5xl">
+      <div class="mx-auto max-w-lg text-shadow-md">
         <Motion
           :initial="{
             scale: 1.1,
@@ -55,7 +55,7 @@ const { footer } = useAppConfig()
         </Motion>
       </div>
     </h1>
-    <div class="text-md mx-auto max-w-2xl sm:text-md text-muted text-balance mt-6">
+    <div class="text-md sm:text-md text-muted mx-auto mt-6 max-w-2xl text-balance">
       <Motion
         :initial="{
           scale: 1.1,
@@ -75,11 +75,10 @@ const { footer } = useAppConfig()
         {{ page.description }}
       </Motion>
     </div>
-    <div class="gap-x-4 inline-flex mt-4">
+    <div class="mt-4 inline-flex gap-x-4">
       <Motion
         v-for="(link, index) of footer?.links"
         :key="index"
-
         :initial="{
           scale: 1.1,
           opacity: 0,
@@ -99,17 +98,6 @@ const { footer } = useAppConfig()
           v-bind="{ size: 'md', color: 'neutral', variant: 'ghost', ...link }"
         />
       </Motion>
-    </div>
-    <div class="mt-8">
-      <UCarousel
-        v-slot="{ item }"
-        loop
-        :autoplay="{ delay: 2000 }"
-        :items="page.hero.images"
-        :ui="{ item: 'basis-1/4', container: 'w-full' }"
-      >
-        <img :src="item.src" :alt="item.alt" width="234" height="234" class="rounded-lg">
-      </UCarousel>
     </div>
   </div>
 </template>
