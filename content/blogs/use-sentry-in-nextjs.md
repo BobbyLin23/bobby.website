@@ -15,184 +15,180 @@ author:
 
 Sentry 提供端到端的分布式追踪，使开发者能够识别和调试其系统和服务的性能问题和错误。
 
-# Setup with Next.js
+## Setup with Next.js
 
 [Manual Setup | Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/)
 
-1. Install the Sentry SDK
+### 1. Install the Sentry SDK
+```bash
+pnpm add @sentry/nextjs
+```
+
+### 2. 修改 `next.config.js`
+```ts [next.config.js]{2} meta-info=val
+  import { withSentryConfig } from "@sentry/nextjs";
+
+  const nextConfig = {
+    // Your existing Next.js configuration
+  };
+
+  // Make sure adding Sentry options is the last code to run before exporting
+  export default withSentryConfig(nextConfig, {
+    org: "example-org",
+    project: "example-project",
+
+    // Only print logs for uploading source maps in CI
+    // Set to `true` to suppress logs
+    silent: !process.env.CI,
+
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    disableLogger: true,
+  });
+
+```
     
-    ```bash
-    pnpm add @sentry/nextjs
-    ```
-    
-2. 修改 `next.config.js`
-    
-    ```tsx
-    import { withSentryConfig } from "@sentry/nextjs";
-    
-    const nextConfig = {
-      // Your existing Next.js configuration
+### 3. App Router 需要在 `app/layout.tsx` 上添加额外配置
+  ```tsx
+  import * as Sentry from "@sentry/nextjs";
+  import type { Metadata } from "next";
+
+  export function generateMetadata(): Metadata {
+    return {
+      // ... your existing metadata
+      other: {
+        ...Sentry.getTraceData(),
+      },
     };
+  }
+
+  ```
     
-    // Make sure adding Sentry options is the last code to run before exporting
-    export default withSentryConfig(nextConfig, {
-      org: "example-org",
-      project: "example-project",
-    
-      // Only print logs for uploading source maps in CI
-      // Set to `true` to suppress logs
-      silent: !process.env.CI,
-    
-      // Automatically tree-shake Sentry logger statements to reduce bundle size
-      disableLogger: true,
-    });
-    
-    ```
-    
-3. App Router 需要在 `app/layout.tsx` 上添加额外配置
-    
-    ```tsx
-    import * as Sentry from "@sentry/nextjs";
-    import type { Metadata } from "next";
-    
-    export function generateMetadata(): Metadata {
-      return {
-        // ... your existing metadata
-        other: {
-          ...Sentry.getTraceData(),
-        },
-      };
-    }
-    ```
-    
-4. 配置三种环境下的sentry配置，需要加在根目录上
-    1. client `instrumentation-client.(js|ts)`
+### 4. 配置三种环境下的sentry配置，需要加在根目录上
+#### 4.1. client `instrumentation-client.(js|ts)`      
+  ```tsx
+  import * as Sentry from "@sentry/nextjs";
+  
+  Sentry.init({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  
+    // Adds request headers and IP for users, for more info visit:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
+    sendDefaultPii: true,
+
+    // Capture Replay for 10% of all sessions,
+    // plus for 100% of sessions with an error
+    // Learn more at
+    // https://docs.sentry.io/platforms/javascript/session-replay/configuration/#general-integration-configuration
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+  
+    // Note: if you want to override the automatic release value, do not set a
+    // `release` value here - use the environment variable `SENTRY_RELEASE`, so
+    // that it will also get attached to your source maps
+  });
+  
+  // This export will instrument router navigations, and is only relevant if you enable tracing.
+  // `captureRouterTransitionStart` is available from SDK version 9.12.0 onwards
+  export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+  ```
+
+#### 4.2. server `sentry.server.config.(js|ts)`
         
-        ```tsx
-        import * as Sentry from "@sentry/nextjs";
+```tsx
+import * as Sentry from "@sentry/nextjs";
+
+Sentry.init({
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+  // Adds request headers and IP for users, for more info visit:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
+  sendDefaultPii: true,
+
+  // ...
+
+  // Note: if you want to override the automatic release value, do not set a
+  // `release` value here - use the environment variable `SENTRY_RELEASE`, so
+  // that it will also get attached to your source maps
+});
+```
         
-        Sentry.init({
-          dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+#### 4.3. edge `sentry.edge.config.(js|ts)`
         
-          // Adds request headers and IP for users, for more info visit:
-          // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-          sendDefaultPii: true,
-          ],
+```tsx
+import * as Sentry from "@sentry/nextjs";
+
+Sentry.init({
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+  // Adds request headers and IP for users, for more info visit:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
+  sendDefaultPii: true,
+
+  // ...
+
+  // Note: if you want to override the automatic release value, do not set a
+  // `release` value here - use the environment variable `SENTRY_RELEASE`, so
+  // that it will also get attached to your source maps
+});
+```
         
-          // Capture Replay for 10% of all sessions,
-          // plus for 100% of sessions with an error
-          // Learn more at
-          // https://docs.sentry.io/platforms/javascript/session-replay/configuration/#general-integration-configuration
-          replaysSessionSampleRate: 0.1,
-          replaysOnErrorSampleRate: 1.0,
-        
-          // Note: if you want to override the automatic release value, do not set a
-          // `release` value here - use the environment variable `SENTRY_RELEASE`, so
-          // that it will also get attached to your source maps
-        });
-        
-        // This export will instrument router navigations, and is only relevant if you enable tracing.
-        // `captureRouterTransitionStart` is available from SDK version 9.12.0 onwards
-        export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
-        ```
-        
-    2. server `sentry.server.config.(js|ts)`
-        
-        ```tsx
-        import * as Sentry from "@sentry/nextjs";
-        
-        Sentry.init({
-          dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-        
-          // Adds request headers and IP for users, for more info visit:
-          // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-          sendDefaultPii: true,
-        
-          // ...
-        
-          // Note: if you want to override the automatic release value, do not set a
-          // `release` value here - use the environment variable `SENTRY_RELEASE`, so
-          // that it will also get attached to your source maps
-        });
-        ```
-        
-    3. edge `sentry.edge.config.(js|ts)`
-        
-        ```tsx
-        import * as Sentry from "@sentry/nextjs";
-        
-        Sentry.init({
-          dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-        
-          // Adds request headers and IP for users, for more info visit:
-          // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-          sendDefaultPii: true,
-        
-          // ...
-        
-          // Note: if you want to override the automatic release value, do not set a
-          // `release` value here - use the environment variable `SENTRY_RELEASE`, so
-          // that it will also get attached to your source maps
-        });
-        ```
-        
-5. 注册Sentry服务端SDK，并初始化
+#### 4.4. 注册Sentry服务端SDK，并初始化
     
-    在根目录或者src（如果有）下创建 `instrumentation.ts`
+在根目录或者src（如果有）下创建 `instrumentation.ts`
+
+```tsx
+export async function register() {
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    await import("./sentry.server.config");
+  }
+
+  if (process.env.NEXT_RUNTIME === "edge") {
+    await import("./sentry.edge.config");
+  }
+}
+```
     
-    ```tsx
-    export async function register() {
-      if (process.env.NEXT_RUNTIME === "nodejs") {
-        await import("./sentry.server.config");
-      }
+#### 4.5. 捕获React渲染错误
     
-      if (process.env.NEXT_RUNTIME === "edge") {
-        await import("./sentry.edge.config");
-      }
-    }
-    ```
-    
-6. 捕获React渲染错误
-    
-    在Next.js的 `error.tsx` 或者 `global-error.tsx` 中加入
-    
-    ```tsx
-    "use client";
-    
-    import * as Sentry from "@sentry/nextjs";
-    import NextError from "next/error";
-    import { useEffect } from "react";
-    
-    export default function GlobalError({
-      error,
-    }: {
-      error: Error & { digest?: string };
-    }) {
-      useEffect(() => {
-        Sentry.captureException(error);
-      }, [error]);
-    
-      return (
-        <html>
-          <body>
-            {/* `NextError` is the default Next.js error page component. Its type
-            definition requires a `statusCode` prop. However, since the App Router
-            does not expose status codes for errors, we simply pass 0 to render a
-            generic error message. */}
-            <NextError statusCode={0} />
-          </body>
-        </html>
-      );
-    }
-    ```
-    
-    获取嵌套的React Server Component错误：需要在 `instrumentation.ts` 中加入
-    
-    ```tsx
-    import * as Sentry from "@sentry/nextjs";
-    
-    export const onRequestError = Sentry.captureRequestError;
-    ```
+在Next.js的 `error.tsx` 或者 `global-error.tsx` 中加入
+
+```tsx
+"use client";
+
+import * as Sentry from "@sentry/nextjs";
+import NextError from "next/error";
+import { useEffect } from "react";
+
+export default function GlobalError({
+  error,
+}: {
+  error: Error & { digest?: string };
+}) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
+  return (
+    <html>
+      <body>
+        {/* `NextError` is the default Next.js error page component. Its type
+        definition requires a `statusCode` prop. However, since the App Router
+        does not expose status codes for errors, we simply pass 0 to render a
+        generic error message. */}
+        <NextError statusCode={0} />
+      </body>
+    </html>
+  );
+}
+```
+
+#### 4.6. 获取嵌套的React Server Component错误：需要在 `instrumentation.ts` 中加入
+
+```tsx
+import * as Sentry from "@sentry/nextjs";
+
+export const onRequestError = Sentry.captureRequestError;
+```
     
 
 # Configuration

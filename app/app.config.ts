@@ -21,6 +21,12 @@ export default defineAppConfig({
         'target': '_blank',
         'aria-label': 'BobbyLin23 on GitHub',
       },
+      {
+        'icon': 'i-simple-icons-rss',
+        'to': '/rss.xml',
+        'target': '_blank',
+        'aria-label': 'RSS Feed',
+      },
     ],
   },
 })

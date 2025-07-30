@@ -15,4 +15,21 @@ export default defineNuxtConfig({
   devServer: {
     port: 3023,
   },
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: 'vitesse-light',
+            dark: 'vitesse-dark',
+            sepia: 'monokai',
+          },
+          langs: ['ts', 'vue', 'tsx', 'js', 'shell', 'jsx'],
+        },
+        toc: {
+          depth: 4,
+        },
+      },
+    },
+  },
 })
