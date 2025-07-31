@@ -42,7 +42,6 @@ function getReadTimeColor(minRead: number) {
 <template>
   <template v-if="page">
     <div class="min-h-screen">
-      <!-- Hero Section -->
       <Motion
         :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
@@ -85,7 +84,6 @@ function getReadTimeColor(minRead: number) {
         </div>
       </Motion>
 
-      <!-- Blog Posts Grid -->
       <div class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
         <Motion
           :initial="{ opacity: 0, y: 40 }"
@@ -110,17 +108,15 @@ function getReadTimeColor(minRead: number) {
                 :to="post.path"
                 class="block h-full"
               >
-                <div class="relative h-full overflow-hidden rounded-2xl bg-white shadow-lg shadow-gray-200/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-gray-300/50 dark:bg-slate-800 dark:shadow-black/20 dark:group-hover:shadow-black/30">
-                  <!-- Image -->
+                <div class="relative h-full overflow-hidden rounded-2xl bg-white shadow-lg shadow-gray-200/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-gray-300/50 dark:bg-neutral-800 dark:shadow-black/20 dark:group-hover:shadow-black/30">
                   <div class="relative h-48 overflow-hidden rounded-t-2xl">
                     <img
                       :src="post.image"
                       :alt="post.title"
-                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                     >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 
-                    <!-- Read Time Badge -->
                     <div class="absolute top-4 right-4">
                       <span
                         class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
@@ -134,25 +130,20 @@ function getReadTimeColor(minRead: number) {
                     </div>
                   </div>
 
-                  <!-- Content -->
                   <div class="p-6">
-                    <!-- Date -->
                     <div class="mb-3 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <UIcon name="i-heroicons-calendar" class="h-4 w-4" />
                       <time :datetime="post.date">{{ formatDate(post.date) }}</time>
                     </div>
 
-                    <!-- Title -->
                     <h3 class="mb-3 line-clamp-2 text-xl font-bold text-gray-900 transition-colors duration-200 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
                       {{ post.title }}
                     </h3>
 
-                    <!-- Description -->
                     <p class="mb-4 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
                       {{ post.description }}
                     </p>
 
-                    <!-- Author -->
                     <div class="flex items-center justify-between">
                       <div class="flex items-center gap-3">
                         <img
@@ -169,8 +160,7 @@ function getReadTimeColor(minRead: number) {
                         </span>
                       </div>
 
-                      <!-- Arrow Icon -->
-                      <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 transition-colors duration-200 group-hover:bg-blue-100 dark:bg-slate-700 dark:group-hover:bg-blue-900/30">
+                      <div class="mt-auto flex size-8 items-center justify-center rounded-full bg-gray-100 transition-colors duration-200 group-hover:bg-blue-100 dark:bg-slate-700 dark:group-hover:bg-blue-900/30">
                         <UIcon
                           name="i-heroicons-arrow-right"
                           class="h-4 w-4 text-gray-600 transition-colors duration-200 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-400"
@@ -179,7 +169,6 @@ function getReadTimeColor(minRead: number) {
                     </div>
                   </div>
 
-                  <!-- Hover Effect Overlay -->
                   <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/0 via-purple-600/0 to-pink-600/0 transition-all duration-500 group-hover:from-blue-600/5 group-hover:via-purple-600/5 group-hover:to-pink-600/5" />
                 </div>
               </NuxtLink>
@@ -187,7 +176,6 @@ function getReadTimeColor(minRead: number) {
           </div>
         </Motion>
 
-        <!-- Empty State -->
         <Motion
           v-if="!posts || posts.length === 0"
           :initial="{ opacity: 0, y: 20 }"
