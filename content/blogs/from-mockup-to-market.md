@@ -7,10 +7,10 @@ date: 2025-04-23
 image: https://images.pexels.com/photos/1050312/pexels-photo-1050312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
 minRead: 8
 author:
-  name: Emma Thompson
+  name: Bobby Lin
   avatar:
     src: /image.png
-    alt: Emma Thompson
+    alt: Bobby Lin
 ---
 
 Creating successful digital products isn't about following a rigid formula—it's about developing a flexible framework that adapts to the unique challenges of each project. After refining my approach across dozens of products, I've developed a process that consistently delivers results while leaving room for creativity and iteration.

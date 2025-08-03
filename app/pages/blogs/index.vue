@@ -74,9 +74,9 @@ function getReadTimeColor(minRead: number) {
               :transition="{ duration: 0.8, delay: 0.6 }"
             >
               <div class="mt-8 flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <UIcon name="i-heroicons-document-text" class="h-5 w-5" />
+                <UIcon name="i-heroicons-document-text" class="size-5" />
                 <span>{{ posts?.length || 0 }} posts</span>
-                <UIcon name="i-heroicons-clock" class="h-5 w-5" />
+                <UIcon name="i-heroicons-clock" class="size-5" />
                 <span>Updating...</span>
               </div>
             </Motion>
@@ -130,7 +130,7 @@ function getReadTimeColor(minRead: number) {
                     </div>
                   </div>
 
-                  <div class="p-6">
+                  <div class="flex flex-col p-6">
                     <div class="mb-3 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <UIcon name="i-heroicons-calendar" class="h-4 w-4" />
                       <time :datetime="post.date">{{ formatDate(post.date) }}</time>
@@ -140,7 +140,7 @@ function getReadTimeColor(minRead: number) {
                       {{ post.title }}
                     </h3>
 
-                    <p class="mb-4 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
+                    <p class="mb-4 line-clamp-3 flex-1 text-sm text-gray-600 dark:text-gray-300">
                       {{ post.description }}
                     </p>
 
@@ -200,19 +200,3 @@ function getReadTimeColor(minRead: number) {
     </div>
   </template>
 </template>
-
-<style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

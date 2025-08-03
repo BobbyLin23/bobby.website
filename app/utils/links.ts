@@ -12,7 +12,7 @@ export const navLinks: NavigationMenuItem[] = [
     to: '/projects',
   },
   {
-    label: 'Blog',
+    label: 'Blogs',
     icon: 'i-lucide-file-text',
     to: '/blogs',
   },

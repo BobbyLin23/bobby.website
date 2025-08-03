@@ -55,6 +55,7 @@ export default defineContentConfig({
       source: [
         { include: 'projects.yml' },
         { include: 'blogs.yml' },
+        { include: 'weekly.yml' },
       ],
       schema: z.object({
         links: z.array(createButtonSchema()),
@@ -78,6 +79,16 @@ export default defineContentConfig({
         description: z.string().nonempty(),
         image: z.string().nonempty().editor({ input: 'media' }),
         url: z.string().nonempty(),
+        tags: z.array(z.string()),
+        date: z.date(),
+      }),
+    }),
+    weekly: defineCollection({
+      type: 'page',
+      source: 'weekly/*.md',
+      schema: z.object({
+        week: z.string().nonempty(),
+        summary: z.string().nonempty(),
         tags: z.array(z.string()),
         date: z.date(),
       }),
