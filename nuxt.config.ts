@@ -15,6 +15,20 @@ export default defineNuxtConfig({
   devServer: {
     port: 3023,
   },
+  image: {
+    quality: 85,
+    format: ['webp', 'png'],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+    },
+    providers: {
+    },
+  },
   content: {
     build: {
       markdown: {
