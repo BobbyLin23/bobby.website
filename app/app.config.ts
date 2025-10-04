@@ -1,4 +1,6 @@
 export default defineAppConfig({
+  title: 'Bobby Lin - Full Stack Engineer',
+  description: 'Latest blog posts and insights from Bobby Lin, a full stack engineer based in Shanghai.',
   ui: {
     colors: {
       primary: 'blue',
@@ -23,7 +25,7 @@ export default defineAppConfig({
       },
       {
         'icon': 'i-simple-icons-rss',
-        'to': '/rss.xml',
+        'to': '/api/rss.xml',
         'target': '_blank',
         'aria-label': 'RSS Feed',
       },

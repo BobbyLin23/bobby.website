@@ -26,7 +26,7 @@ useSeoMeta({
   >
     <LandingHero :page="page" />
 
-    <LandingTechStack />
+    <!-- <LandingTechStack /> -->
 
     <LandingRecentProjects />
 

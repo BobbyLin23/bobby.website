@@ -16,8 +16,7 @@ if (!projects.value || projects.value.length === 0) {
 }
 
 const global = {
-  meetingLink: 'https://calendly.com/bobby/meeting',
-  email: 'bobby@example.com',
+  email: 'linzhangsheng23@gmail.com',
 }
 
 if (!page.value) {
@@ -55,12 +54,8 @@ useSeoMeta({
           <div v-if="page.links" class="mt-8 flex items-center justify-center gap-4">
             <UButton
               :label="page.links[0]?.label"
-              :to="global.meetingLink"
-              v-bind="page.links[0]"
-            />
-            <UButton
               :to="`mailto:${global.email}`"
-              v-bind="page.links[1]"
+              v-bind="page.links[0]"
             />
           </div>
         </div>

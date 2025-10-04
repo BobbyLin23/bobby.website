@@ -58,13 +58,12 @@ const { data: blogs } = await useAsyncData('recent-blogs', () =>
           </p>
           <template #footer>
             <div class="flex h-8 items-center">
-              <UButton
-                :to="`/blogs/${blog.id}`"
-                variant="ghost"
-                size="sm"
+              <NuxtLink
+                :href="blog.path"
+                class="text-primary hover:text-primary/85 inline-flex items-center text-sm font-medium transition-colors"
               >
                 Read More
-              </UButton>
+              </NuxtLink>
             </div>
           </template>
         </UCard>

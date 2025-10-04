@@ -1,6 +1,6 @@
-title: Task Management App
-description: 'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features. Built with modern web technologies and optimized for performance across all devices.'
+title: Vibe Daily
+description: 'Vibe Daily is a comprehensive lifestyle tracking app that helps users record and monitor various aspects of their daily life. Users can log their daily activities, track meals and nutrition, monitor weight changes, and manage expenses, all in one intuitive and beautifully designed interface.'
 image: https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80
 url: 'https://example.com/project2'
-tags: [Vue 3, TypeScript, Real-time, Collaboration]
-date: 2024-02-20
+tags: [Nuxt.js, Vue.js, Tailwind CSS, AI]
+date: 2025-10-20
