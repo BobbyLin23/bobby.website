@@ -1,36 +1,50 @@
 export default defineEventHandler(async (event) => {
   const config = useAppConfig()
+  const baseURL = getRequestURL(event).origin
 
   const blogs = await queryCollection(event, 'blogs').order('date', 'DESC').limit(20).all()
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>${config.title || 'Bobby Lin - Full Stack Engineer'}</title>
-    <description>${config.description || 'Latest blog posts from Bobby Lin'}</description>
-    <link>${getRequestURL(event).origin}</link>
-    <atom:link href="${getRequestURL(event).origin}/rss.xml" rel="self" type="application/rss+xml"/>
+    <title>${escapeXml(config.title || 'Bobby Lin - Full Stack Engineer')}</title>
+    <description>${escapeXml(config.description || 'Latest blog posts from Bobby Lin')}</description>
+    <link>${baseURL}</link>
+    <atom:link href="${baseURL}/api/rss.xml" rel="self" type="application/rss+xml"/>
     <language>zh-CN</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <generator>Nuxt Content</generator>
-    
-    ${blogs?.map((blog: any) => `
+    ${(blogs || []).map((blog: any) => {
+      const blogPath = blog._path?.replace(/^\/blogs\//, '') || blog._id
+      const blogURL = `${baseURL}/blogs/${blogPath}`
+
+      return `
     <item>
-      <title><![CDATA[${blog.title}]]></title>
+      <title><![CDATA[${blog.title || 'Untitled'}]]></title>
       <description><![CDATA[${blog.description || ''}]]></description>
-      <link>${getRequestURL(event).origin}/blogs/${blog._path?.replace('/blogs/', '')}</link>
-      <guid isPermaLink="true">${getRequestURL(event).origin}/blogs/${blog._path?.replace('/blogs/', '')}</guid>
-      <pubDate>${new Date(blog.date).toUTCString()}</pubDate>
-      ${blog.author?.name ? `<author>${blog.author.name}</author>` : ''}
-      ${blog.image ? `<enclosure url="${blog.image}" type="image/jpeg"/>` : ''}
-    </item>
-    `).join('') || ''}
+      <link>${blogURL}</link>
+      <guid isPermaLink="true">${blogURL}</guid>
+      <pubDate>${blog.date ? new Date(blog.date).toUTCString() : new Date().toUTCString()}</pubDate>
+      ${blog.author?.name ? `<dc:creator><![CDATA[${blog.author.name}]]></dc:creator>` : ''}
+      ${blog.image ? `<enclosure url="${escapeXml(blog.image)}" type="image/jpeg"/>` : ''}
+    </item>`
+    }).join('')}
   </channel>
 </rss>`
 
-  // 设置响应头
   setHeader(event, 'Content-Type', 'application/rss+xml; charset=utf-8')
-  setHeader(event, 'Cache-Control', 'max-age=3600')
+  setHeader(event, 'Cache-Control', 'public, max-age=3600')
 
   return rss
 })
+
+function escapeXml(unsafe: string): string {
+  if (!unsafe)
+    return ''
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}

@@ -1,10 +1,34 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
 
-const nextTheme = computed(() => (colorMode.value === 'dark' ? 'light' : 'dark'))
+const currentTheme = computed(() => colorMode.value)
+
+const currentPreference = computed(() => colorMode.preference || 'system')
+
+const nextPreference = computed((): 'system' | 'light' | 'dark' => {
+  const preferences: ('system' | 'light' | 'dark')[] = ['system', 'light', 'dark']
+  const currentPref = currentPreference.value as 'system' | 'light' | 'dark'
+  const currentIndex = preferences.indexOf(currentPref)
+  const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % preferences.length
+  return preferences[nextIndex] || 'system'
+})
+
+const currentIcon = computed(() => {
+  if (currentPreference.value === 'system') {
+    return 'i-lucide-monitor'
+  }
+  return currentTheme.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'
+})
+
+const nextThemeLabel = computed(() => {
+  if (nextPreference.value === 'system') {
+    return 'system'
+  }
+  return nextPreference.value === 'dark' ? 'dark' : 'light'
+})
 
 function switchTheme() {
-  colorMode.preference = nextTheme.value
+  colorMode.preference = nextPreference.value
 }
 
 function startViewTransition(event: MouseEvent) {
@@ -46,12 +70,12 @@ function startViewTransition(event: MouseEvent) {
 <template>
   <ClientOnly>
     <UButton
-      :aria-label="`Switch to ${nextTheme} mode`"
-      :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
+      :aria-label="`Switch to ${nextThemeLabel} mode`"
+      :icon="currentIcon"
       color="neutral"
       variant="ghost"
       size="sm"
-      class="rounded-full cursor-pointer"
+      class="cursor-pointer rounded-full"
       @click="startViewTransition"
     />
     <template #fallback>
