@@ -4,33 +4,16 @@ const { data: projects } = await useAsyncData('recent-projects', () =>
 </script>
 
 <template>
-  <section class="space-y-8">
-    <Motion
-      :initial="{ opacity: 0, y: 20 }"
-      :animate="{ opacity: 1, y: 0 }"
-      :transition="{ duration: 0.6, delay: 1.2 }"
-    >
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">
-            Recent Focus Projects
-          </h2>
-          <p class="text-muted-foreground">
-            Showcase of my recent focus projects
-          </p>
-        </div>
-        <UButton
-          to="/projects"
-          variant="ghost"
-          icon="i-lucide-arrow-right"
-          class="hidden sm:flex"
-        >
-          View All
-        </UButton>
-      </div>
-    </Motion>
-
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <UPageSection
+    title="Recent Projects"
+    description="Showcase of my recent focus projects"
+    :ui="{
+      container: 'px-0 !pt-0 sm:gap-6 lg:gap-8',
+      title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',
+      description: 'text-left mt-2 text-sm sm:text-md lg:text-sm text-muted',
+    }"
+  >
+    <div class="grid grid-cols-2 gap-6">
       <Motion
         v-for="(project, index) in projects"
         :key="project.id"
@@ -51,7 +34,7 @@ const { data: projects } = await useAsyncData('recent-projects', () =>
               </div>
             </div>
           </template>
-          <div class="flex min-h-[2rem] flex-1 flex-wrap content-start gap-2">
+          <div class="flex min-h-8 flex-1 flex-wrap content-start gap-2">
             <UBadge
               v-for="tech in project.tags"
               :key="tech"
@@ -77,5 +60,5 @@ const { data: projects } = await useAsyncData('recent-projects', () =>
         </UCard>
       </Motion>
     </div>
-  </section>
+  </UPageSection>
 </template>

@@ -4,7 +4,7 @@ const { footer } = useAppConfig()
 
 <template>
   <div
-    class="bg-default z-10 flex items-center justify-between text-xs"
+    class="bg-default z-10 flex items-center justify-between py-4 text-xs"
   >
     <span>
       {{ footer.credits }}

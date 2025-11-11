@@ -1,73 +1,51 @@
 <script lang="ts" setup>
-import { format } from 'date-fns'
-
 const { data: blogs } = await useAsyncData('recent-blogs', () =>
   queryCollection('blogs').order('date', 'DESC').limit(3).all())
 </script>
 
 <template>
-  <section class="space-y-8">
-    <Motion
-      :initial="{ opacity: 0, y: 20 }"
-      :animate="{ opacity: 1, y: 0 }"
-      :transition="{ duration: 0.6, delay: 1.8 }"
+  <UPageSection
+    title="Recent Blogs"
+    description="Showcase of my recent blog posts"
+    :ui="{
+      container: 'px-0 !pt-0 sm:gap-6 lg:gap-8',
+      title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',
+      description: 'text-left mt-2 text-sm sm:text-md lg:text-sm text-muted',
+    }"
+  >
+    <UBlogPosts
+      orientation="vertical"
+      class="gap-4 lg:gap-y-4"
     >
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">
-            Recent Blogs
-          </h2>
-          <p class="text-muted-foreground">
-            Share my technical insights and development experience
-          </p>
-        </div>
-        <UButton
-          to="/blogs"
-          variant="ghost"
-          icon="i-lucide-arrow-right"
-          class="hidden sm:flex"
-        >
-          View All
-        </UButton>
-      </div>
-    </Motion>
-
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <Motion
-        v-for="(blog, index) in blogs"
-        :key="blog.id"
-        :initial="{ opacity: 0, y: 20 }"
-        :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.6, delay: 2.0 + index * 0.2 }"
+      <UBlogPost
+        v-for="(post, index) in blogs"
+        :key="index"
+        orientation="horizontal"
+        variant="naked"
+        v-bind="post"
+        :to="post.path"
+        :ui="{
+          root: 'group relative lg:items-start lg:flex ring-0 hover:ring-0',
+          body: '!px-0',
+          header: 'hidden',
+        }"
       >
-        <UCard class="group flex h-full flex-col transition-all hover:shadow-lg">
-          <template #header>
-            <div class="flex h-20 flex-col">
-              <h3 class="flex-1 font-semibold">
-                {{ blog.title }}
-              </h3>
-              <div>
-                <UBadge variant="soft" size="md">
-                  {{ format(new Date(blog.date), 'MMM d, yyyy') }}
-                </UBadge>
-              </div>
-            </div>
-          </template>
-          <p class="text-muted-foreground line-clamp-4 h-20 text-sm">
-            {{ blog.description }}
-          </p>
-          <template #footer>
-            <div class="flex h-8 items-center">
-              <NuxtLink
-                :href="blog.path"
-                class="text-primary hover:text-primary/85 inline-flex items-center text-sm font-medium transition-colors"
-              >
-                Read More
-              </NuxtLink>
-            </div>
-          </template>
-        </UCard>
-      </Motion>
-    </div>
-  </section>
+        <template #footer>
+          <UButton
+            size="xs"
+            variant="link"
+            class="gap-0 px-0"
+            label="Read Article"
+          >
+            <template #trailing>
+              <UIcon
+                name="i-lucide-arrow-right"
+                class="text-primary size-4 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+              />
+            </template>
+          </UButton>
+        </template>
+      </UBlogPost>
+    </UBlogPosts>
+  </UPageSection>
 </template>

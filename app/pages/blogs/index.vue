@@ -20,183 +20,57 @@ if (!posts.value) {
   })
 }
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
-function getReadTimeColor(minRead: number) {
-  if (minRead <= 5)
-    return 'text-emerald-600 bg-emerald-50'
-  if (minRead <= 10)
-    return 'text-blue-600 bg-blue-50'
-  if (minRead <= 15)
-    return 'text-orange-600 bg-orange-50'
-  return 'text-red-600 bg-red-50'
-}
+useSeoMeta({
+  title: page.value?.seo?.title || page.value?.title,
+  ogTitle: page.value?.seo?.title || page.value?.title,
+  description: page.value?.seo?.description || page.value?.description,
+  ogDescription: page.value?.seo?.description || page.value?.description,
+})
 </script>
 
 <template>
-  <template v-if="page">
-    <div class="min-h-screen">
-      <Motion
-        :initial="{ opacity: 0, y: 20 }"
-        :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.6 }"
-        class="relative overflow-hidden"
-      >
-        <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-          <div class="text-center">
-            <Motion
-              :initial="{ opacity: 0, scale: 0.9 }"
-              :animate="{ opacity: 1, scale: 1 }"
-              :transition="{ duration: 0.8, delay: 0.2 }"
-            >
-              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl dark:text-white">
-                {{ page.title }}
-              </h1>
-            </Motion>
-            <Motion
-              :initial="{ opacity: 0, y: 20 }"
-              :animate="{ opacity: 1, y: 0 }"
-              :transition="{ duration: 0.8, delay: 0.4 }"
-            >
-              <p class="mx-auto mt-6 max-w-3xl text-xl text-gray-600 dark:text-gray-300">
-                {{ page.description }}
-              </p>
-            </Motion>
-            <Motion
-              :initial="{ opacity: 0, y: 20 }"
-              :animate="{ opacity: 1, y: 0 }"
-              :transition="{ duration: 0.8, delay: 0.6 }"
-            >
-              <div class="mt-8 flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <UIcon name="i-heroicons-document-text" class="size-5" />
-                <span>{{ posts?.length || 0 }} posts</span>
-                <UIcon name="i-heroicons-clock" class="size-5" />
-                <span>Updating...</span>
-              </div>
-            </Motion>
-          </div>
-        </div>
-      </Motion>
-
-      <div class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+  <UPage v-if="page">
+    <UPageHero
+      :title="page.title"
+      :description="page.description"
+      :links="page.links"
+      :ui="{
+        title: '!mx-0 text-left',
+        description: '!mx-0 text-left',
+        links: 'justify-start',
+      }"
+    />
+    <UPageSection
+      :ui="{
+        container: '!pt-0',
+      }"
+    >
+      <UBlogPosts orientation="vertical">
         <Motion
-          :initial="{ opacity: 0, y: 40 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.8, delay: 0.8 }"
+          v-for="(post, index) in posts"
+          :key="index"
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
+          :transition="{ delay: 0.2 * index }"
+          :in-view-options="{ once: true }"
         >
-          <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <Motion
-              v-for="(post, index) in posts"
-              :key="post.path"
-              :initial="{ opacity: 0, y: 30, scale: 0.95 }"
-              :while-in-view="{ opacity: 1, y: 0, scale: 1 }"
-              :transition="{
-                duration: 0.6,
-                delay: 0.1 * index,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }"
-              :in-view-options="{ once: true, margin: '-100px' }"
-              class="group"
-            >
-              <NuxtLink
-                :to="post.path"
-                class="block h-full"
-              >
-                <div class="relative h-full overflow-hidden rounded-2xl bg-white shadow-lg shadow-gray-200/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-gray-300/50 dark:bg-neutral-800 dark:shadow-black/20 dark:group-hover:shadow-black/30">
-                  <div class="relative h-48 overflow-hidden rounded-t-2xl">
-                    <img
-                      :src="post.image"
-                      :alt="post.title"
-                      class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-
-                    <div class="absolute top-4 right-4">
-                      <span
-                        class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
-                        :class="[
-                          getReadTimeColor(post.minRead),
-                        ]"
-                      >
-                        <UIcon name="i-heroicons-clock" class="h-3 w-3" />
-                        {{ post.minRead }} minutes
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="flex flex-col p-6">
-                    <div class="mb-3 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      <UIcon name="i-heroicons-calendar" class="h-4 w-4" />
-                      <time :datetime="post.date">{{ formatDate(post.date) }}</time>
-                    </div>
-
-                    <h3 class="mb-3 line-clamp-2 text-xl font-bold text-gray-900 transition-colors duration-200 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
-                      {{ post.title }}
-                    </h3>
-
-                    <p class="mb-4 line-clamp-3 flex-1 text-sm text-gray-600 dark:text-gray-300">
-                      {{ post.description }}
-                    </p>
-
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center gap-3">
-                        <img
-                          v-if="post.author.avatar"
-                          :src="post.author.avatar.src"
-                          :alt="post.author.name"
-                          class="h-8 w-8 rounded-full object-cover"
-                        >
-                        <div v-else class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
-                          <span class="text-xs font-bold text-white">{{ post.author.name.charAt(0) }}</span>
-                        </div>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">
-                          {{ post.author.name }}
-                        </span>
-                      </div>
-
-                      <div class="mt-auto flex size-8 items-center justify-center rounded-full bg-gray-100 transition-colors duration-200 group-hover:bg-blue-100 dark:bg-slate-700 dark:group-hover:bg-blue-900/30">
-                        <UIcon
-                          name="i-heroicons-arrow-right"
-                          class="h-4 w-4 text-gray-600 transition-colors duration-200 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-400"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/0 via-purple-600/0 to-pink-600/0 transition-all duration-500 group-hover:from-blue-600/5 group-hover:via-purple-600/5 group-hover:to-pink-600/5" />
-                </div>
-              </NuxtLink>
-            </Motion>
-          </div>
+          <UBlogPost
+            variant="naked"
+            orientation="horizontal"
+            :to="post.path"
+            v-bind="post"
+            :ui="{
+              root: 'md:grid md:grid-cols-2 group overflow-visible transition-all duration-300',
+              image:
+                'group-hover/blog-post:scale-105 rounded-lg shadow-lg border-4 border-muted ring-2 ring-default',
+              header:
+                index % 2 === 0
+                  ? 'sm:-rotate-1 overflow-visible'
+                  : 'sm:rotate-1 overflow-visible',
+            }"
+          />
         </Motion>
-
-        <Motion
-          v-if="!posts || posts.length === 0"
-          :initial="{ opacity: 0, y: 20 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6 }"
-          class="py-16 text-center"
-        >
-          <div class="mx-auto max-w-md">
-            <UIcon
-              name="i-heroicons-document-text"
-              class="mx-auto h-16 w-16 text-gray-300 dark:text-gray-600"
-            />
-            <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-              No blog posts
-            </h3>
-            <p class="mt-2 text-gray-500 dark:text-gray-400">
-              Coming soon...
-            </p>
-          </div>
-        </Motion>
-      </div>
-    </div>
-  </template>
+      </UBlogPosts>
+    </UPageSection>
+  </UPage>
 </template>

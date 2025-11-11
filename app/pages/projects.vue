@@ -15,10 +15,6 @@ if (!projects.value || projects.value.length === 0) {
   })
 }
 
-const global = {
-  email: 'linzhangsheng23@gmail.com',
-}
-
 if (!page.value) {
   throw createError({
     statusCode: 404,
@@ -36,94 +32,66 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="min-h-screen">
-    <div v-if="page" class="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+  <UPage v-if="page">
+    <UPageHero
+      :title="page.title"
+      :description="page.description"
+      :links="page.links"
+      :ui="{
+        title: '!mx-0 text-left',
+        description: '!mx-0 text-left',
+        links: 'justify-start',
+      }"
+    />
+    <UPageSection
+      :ui="{
+        container: '!pt-0',
+      }"
+    >
       <Motion
-        :initial="{ opacity: 0, y: 20 }"
-        :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.6 }"
-        class="mb-16"
+        v-for="(project, index) in projects"
+        :key="project.title"
+        :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+        :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
+        :transition="{ delay: 0.2 * index }"
+        :in-view-options="{ once: true }"
       >
-        <div class="text-center">
-          <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl dark:text-white">
-            {{ page.title }}
-          </h1>
-          <p class="mx-auto mt-6 max-w-3xl text-xl text-gray-600 dark:text-gray-300">
-            {{ page.description }}
-          </p>
-          <div v-if="page.links" class="mt-8 flex items-center justify-center gap-4">
-            <UButton
-              :label="page.links[0]?.label"
-              :to="`mailto:${global.email}`"
-              v-bind="page.links[0]"
-            />
-          </div>
-        </div>
-      </Motion>
-
-      <!-- Projects Grid -->
-      <div class="space-y-12">
-        <Motion
-          v-for="(project, index) in projects"
-          :key="project.title"
-          :initial="{ opacity: 0, transform: 'translateY(20px)' }"
-          :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
-          :transition="{ delay: 0.2 * index }"
-          :in-view-options="{ once: true }"
+        <UPageCard
+          :title="project.title"
+          :description="project.description"
+          :to="project.url"
+          orientation="horizontal"
+          variant="naked"
+          :reverse="index % 2 === 1"
+          class="group"
+          :ui="{
+            wrapper: 'max-sm:order-last',
+          }"
         >
-          <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-300/50 dark:bg-neutral-800 dark:shadow-black/20 dark:hover:shadow-black/30">
-            <div class="grid gap-8 lg:grid-cols-2" :class="{ 'lg:grid-flow-col-dense': index % 2 === 1 }">
-              <div class="relative h-64 overflow-hidden rounded-t-2xl lg:h-full lg:rounded-t-none lg:rounded-l-2xl" :class="{ 'lg:order-2': index % 2 === 1 }">
-                <img
-                  :src="project.image"
-                  :alt="project.title"
-                  class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                >
-                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-              </div>
-
-              <div class="flex flex-col justify-center p-8" :class="{ 'lg:order-1': index % 2 === 1 }">
-                <div class="mb-4">
-                  <span class="text-muted text-sm">
-                    {{ new Date(project.date).getFullYear() }}
-                  </span>
-                </div>
-
-                <h3 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {{ project.title }}
-                </h3>
-
-                <p class="mb-6 text-lg text-gray-600 dark:text-gray-300">
-                  {{ project.description }}
-                </p>
-
-                <!-- Tags -->
-                <div class="mb-6 flex flex-wrap gap-2">
-                  <span
-                    v-for="tag in project.tags"
-                    :key="tag"
-                    class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                  >
-                    {{ tag }}
-                  </span>
-                </div>
-
-                <!-- View Project Link -->
-                <ULink
-                  :to="project.url"
-                  class="text-primary hover:text-primary-600 inline-flex items-center text-sm font-medium transition-colors"
-                >
-                  View Project
-                  <UIcon
-                    name="i-lucide-arrow-right"
-                    class="ml-2 size-4 transition-all group-hover:translate-x-1"
-                  />
-                </ULink>
-              </div>
-            </div>
-          </div>
-        </Motion>
-      </div>
-    </div>
-  </div>
+          <template #leading>
+            <span class="text-muted text-sm">
+              {{ new Date(project.date).getFullYear() }}
+            </span>
+          </template>
+          <template #footer>
+            <ULink
+              :to="project.url"
+              class="text-primary flex items-center text-sm"
+            >
+              View Project
+              <UIcon
+                name="i-lucide-arrow-right"
+                class="text-primary size-4 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+              />
+            </ULink>
+          </template>
+          <img
+            :src="project.image"
+            :alt="project.title"
+            class="h-48 w-full rounded-lg object-cover"
+          >
+        </UPageCard>
+      </Motion>
+    </UPageSection>
+  </UPage>
 </template>

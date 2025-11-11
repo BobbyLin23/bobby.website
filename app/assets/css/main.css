@@ -3,7 +3,13 @@
 
 @source "../../../content/**/*";
 
+@theme static {
+  --font-sans: 'Public Sans', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+}
+
 :root {
+  --ui-container: var(--container-4xl);
 
   ::selection {
     color: #282a30;
