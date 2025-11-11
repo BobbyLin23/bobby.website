@@ -3,7 +3,7 @@ const contactEmail = 'linzhangsheng23@gmail.com'
 </script>
 
 <template>
-  <section class="space-y-8">
+  <section class="my-8 space-y-8">
     <Motion
       :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"

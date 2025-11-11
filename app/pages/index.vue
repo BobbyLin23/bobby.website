@@ -20,18 +20,13 @@ useSeoMeta({
 </script>
 
 <template>
-  <div
-    v-if="page"
-    class="mx-auto flex w-full max-w-(--ui-container) flex-col gap-16 px-4 py-18 sm:gap-y-24 sm:px-6 sm:py-24 lg:grid lg:px-8 lg:py-32"
-  >
+  <UPage v-if="page">
     <LandingHero :page="page" />
-
-    <!-- <LandingTechStack /> -->
 
     <LandingRecentProjects />
 
     <LandingRecentBlogs />
 
     <LandingContactCTA />
-  </div>
+  </UPage>
 </template>
