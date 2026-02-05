@@ -6,8 +6,9 @@ alwaysApply: true
 
 - Nuxt 4
 - Tailwind CSS
-- Nuxt UI
+- Nuxt UI v4
 - Nuxt Icon
 - Nuxt Image
 - Nuxt Content
 - Motion for Vue
+- pnpm
